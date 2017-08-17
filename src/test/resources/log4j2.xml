@@ -13,6 +13,9 @@
             <AppenderRef ref="Console"/>
         </logger>
 
+        <logger name="io.demo" level="info" additivity="false">
+            <AppenderRef ref="Console"/>
+        </logger>
         <root level="info">
             <AppenderRef ref="Console"/>
         </root>
