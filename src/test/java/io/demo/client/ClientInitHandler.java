@@ -23,6 +23,7 @@ public class ClientInitHandler extends ChannelInboundHandlerAdapter {
      */
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
+        logger.info("向服务端信息...");
         logger.info("ClientInitHandler.channelActive");
         Person person = new Person();
         person.setName("guowl");
@@ -40,6 +41,12 @@ public class ClientInitHandler extends ChannelInboundHandlerAdapter {
      */
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-       logger.info("server返回的数据:{}",msg);
+        logger.info("server返回的数据:{}", msg);
+    }
+
+    @Override
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+        cause.printStackTrace();
+        ctx.close();
     }
 }
