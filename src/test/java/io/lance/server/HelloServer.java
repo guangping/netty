@@ -46,8 +46,9 @@ public class HelloServer {
                     });
 
             ChannelFuture f = b.bind(port).sync();
-            f.channel().closeFuture().sync();
             logger.info("server is start.......");
+            f.channel().closeFuture().sync();
+
         } finally {
             workerGroup.shutdownGracefully();
             bossGroup.shutdownGracefully();

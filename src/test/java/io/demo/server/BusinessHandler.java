@@ -1,6 +1,8 @@
 package io.demo.server;
 
+import io.demo.utils.ByteObjConverter;
 import io.demo.vo.Person;
+import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import org.apache.logging.log4j.LogManager;
@@ -18,16 +20,29 @@ public class BusinessHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         Person person = (Person) msg;
-        logger.info("BusinessHandler read msg from client :{}" , person);
-    }
+        logger.info("获取请求数据:{}", person);
+        //业务处理
 
-    @Override
-    public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
+        //ctx.write(msg);
+
+        Person rValue = new Person();
+        rValue.setAge(10);
+        rValue.setName("lance");
+        rValue.setSex("F");
+
+        byte[] bytes = ByteObjConverter.objectToByte(rValue);
+
+        ByteBuf encoded = ctx.alloc().buffer(bytes.length);
+        encoded.writeBytes(bytes);
+
+        ctx.write(encoded);
         ctx.flush();
     }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         logger.info("异常捕获");
+        cause.printStackTrace();
+        ctx.close();
     }
 }

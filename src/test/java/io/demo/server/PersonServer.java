@@ -1,5 +1,7 @@
 package io.demo.server;
 
+import io.demo.coder.PersonDecoder;
+import io.demo.coder.PersonEncoder;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -36,8 +38,11 @@ public class PersonServer {
                         public void initChannel(SocketChannel ch)
                                 throws Exception {
                             ChannelPipeline pipeline = ch.pipeline();
-                            pipeline.addLast(new PersonDecoder());
-                            pipeline.addLast(new BusinessHandler());
+                            //pipeline.addLast(new BusinessOutHandler());
+
+                            pipeline.addLast("decoder", new PersonDecoder());
+                            pipeline.addLast("encoder", new PersonEncoder());
+                            pipeline.addLast("handler", new BusinessHandler());
 
                         }
                     });

@@ -1,4 +1,4 @@
-package io.demo.client;
+package io.demo.coder;
 
 import io.demo.utils.ByteObjConverter;
 import io.demo.vo.Person;

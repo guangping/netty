@@ -16,6 +16,11 @@ public class ClientInitHandler extends ChannelInboundHandlerAdapter {
     private static final Logger logger = LogManager.getLogger(ClientInitHandler.class);
 
 
+    /**
+     * @desc:链接成功时触发
+     * @author lance
+     * @time: 2017-08-17 17:55:01
+     */
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         logger.info("ClientInitHandler.channelActive");
@@ -25,5 +30,16 @@ public class ClientInitHandler extends ChannelInboundHandlerAdapter {
         person.setAge(30);
         ctx.write(person);
         ctx.flush();
+    }
+
+
+    /**
+     * @desc:获取返回数据
+     * @author lance
+     * @time: 2017-08-17 17:55:28
+     */
+    @Override
+    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+       logger.info("server返回的数据:{}",msg);
     }
 }

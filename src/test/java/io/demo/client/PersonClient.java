@@ -1,7 +1,7 @@
 package io.demo.client;
 
-import io.lance.client.HelloClient;
-import io.lance.client.HelloClientIntHandler;
+import io.demo.coder.PersonDecoder;
+import io.demo.coder.PersonEncoder;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -32,8 +32,10 @@ public class PersonClient {
                 @Override
                 public void initChannel(SocketChannel ch) throws Exception {
                     ChannelPipeline pipeline = ch.pipeline();
-                    pipeline.addLast(new PersonEncoder());
-                    pipeline.addLast(new ClientInitHandler());
+                    pipeline.addLast("decoder",new PersonDecoder());
+                    pipeline.addLast("encoder",new PersonEncoder());
+
+                    pipeline.addLast("handler",new ClientInitHandler());
                 }
             });
             // Start the client.
